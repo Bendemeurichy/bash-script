@@ -111,7 +111,7 @@ echo "Runners: $runners, Length: $length, Frame: $frame"
 repeat "+" "---+" "$b"
 echo""
 
-for ((i = 1 ; i <= $(echo "$runners") ; i++)); do
+for ((i = 1 ; i <= $runners ; i++)); do
 
 
 afstand=$(cat atletes.txt|sed -n "$frame"p|cut -d " " -f $i)

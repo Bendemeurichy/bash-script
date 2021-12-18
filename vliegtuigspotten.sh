@@ -15,32 +15,36 @@ n=0
 d=0
 c=0
 while getopts ":cn:d:" opt; do
-    case "$opt" in
-        n)
-            if [[ $OPTARG =~ ^[+-]?[1-9][0-9]*$ ]];then
-                n=$OPTARG
-            else
-                syntax
-            fi
-        ;;
-        d)
-            if [[ $OPTARG =~ ^[+-]?[1-9][0-9]*$ ]];then
-                d=$OPTARG
-            else
-                syntax
-            fi
-        ;;
-        c)
-            c=1
-        ;;
-        \?)
+case "${opt}" in
+    n  ) # verwerk optie n
+        if [[ $OPTARG =~ ^[+-]?[1-9][0-9]*$ ]];then
+            n=$(echo "$OPTARG")
+        else
             syntax
-    esac
+        fi
+        ;;
+    d  ) # verwerk optie d
+        if [[ $OPTARG =~ ^[+-]?[1-9][0-9]*$ ]];then
+            d=$(echo "$OPTARG")
+        else 
+            syntax
+        fi
+        ;;
+    c  ) # verwerk optie c
+        c=1
+        ;;
+    \?  ) 
+        syntax
+        ;;
+esac
 done
 
 shift $((OPTIND-1))
 
 #error handling
+if [[ $# -lt 2 ]] || [[ $# -gt 3 ]];then
+    syntax
+fi
 
 if [[ ! $1 =~ ^[+-]?1?[0-8]?[0-9].?[0-9]*$ ]] || [[ ! $2 =~ ^[+-]?[1-9]?[0-9].?[0-9]*$ ]];then
     echo "airplanes: invalid coordinates" >&2
@@ -49,7 +53,7 @@ fi
 
 if [[ -e $3 ]];then
     if [[ ! -r $3 || ! -f $3 ]];then
-    echo "airplanes: cannot acces '$3'" >&2
+    echo "airplanes: cannot access '$3'" >&2
     exit 3
     fi
 fi
