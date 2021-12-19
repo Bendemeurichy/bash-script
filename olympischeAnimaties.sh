@@ -111,67 +111,66 @@ echo "Runners: $runners, Length: $length, Frame: $frame"
 repeat "+" "---+" "$b"
 echo""
 
-for ((i=1 ; i<=$runners ; i++));do
+for ((k = 1 ; k <= $runners ; k++)); do
 
-
-afstand=$(cat atletes.txt|sed -n "$frame"p|cut -d " " -f $i)
+afstand=$(cat atletes.txt|sed -n "$((frame+1))"p|cut -d " " -f $k)
 pos=$(echo "($b - 1)*($afstand/$length) "|bc -l)
 blok=$(round $pos)
 
+
 if [[ blok -eq 0 ]];then
 
-    repeat "|$hoofd|" "   |" "$b-2"
+    repeat "|$hoofd|" "   |" "$((b-2))"
     echo "###|"
-    repeat "|$lichaam|" "   |" "$b-2"
+    repeat "|$lichaam|" "   |" "$((b-2))"
     if [[ $n -eq 1 ]];then
-        echo "#"$i"#|"
+        echo "#"$k"#|"
     else
         echo "###|"
     fi
-    repeat "|$benen|" "   |" "$b-2"
+    repeat "|$benen|" "   |" "$((b-2))"
     echo "###|"
 
 elif [[ blok -eq $((b-1)) ]];then
 
-    repeat "|###|" "   |" "$b-2"
+    repeat "|###|" "   |" "$((b-2))"
     echo "$hoofd|"
     
     if [[ $n -eq 1 ]];then
-        repeat "|#"$i"#|" "   |" "$b-2"
+        repeat "|#"$k"#|" "   |" "$((b-2))"
     else
-        repeat "|###|" "   |" "$b-2"
+        repeat "|###|" "   |" "$((b-2))"
     fi
-    repeat "|###|" "   |" "$b-2"
+    echo "$lichaam|"
+    repeat "|###|" "   |" "$((b-2))"
     echo "$benen|"
 
 
 else
     
-    repeat "|###|" "   |" "$blok-1"
-    echo -n "$hoofd|"
-    repeat "" "   |" "$b-$blok-2"
+    repeat "|###|" "   |" "$((blok-1))"
+    repeat "$hoofd|" "   |" "$((b-blok-2))"
     echo "###|"
     if [[ $n -eq 1 ]];then
-        repeat "|#"$i"#|" "   |" "$blok-1"
-            echo -n "$lichaam|"
-        repeat "" "   |" "$b-$blok-2"
-        echo "#"$i"#|"
+        repeat "|#"$k"#|" "   |" "$((blok-1))"
+        repeat "$lichaam|" "   |" "$((b-blok-2))"
+        echo "#"$k"#|"
     else
-        repeat "|###|" "   |" "$blok-1"
-        echo -n "$lichaam|"
-        repeat "" "   |" "$b-$blok-2"
+        repeat "|###|" "   |" "$((blok-1))"
+        repeat "$lichaam|" "   |" "$((b-blok-2))"
         echo "###|"
     fi 
 
-    repeat "|###|" "   |" "$blok-1"
+    repeat "|###|" "   |" "$((blok-1))"
     echo -n "$benen|"
-    repeat "" "   |" "$b-$blok-2"
+    repeat "" "   |" "$((b-blok-2))"
     echo "###|"
    
 
 fi
-repeat "+" "---+" "$b"
 
+repeat "+" "---+" "$b"
+echo ""
 done
 
 rm atletes.txt
