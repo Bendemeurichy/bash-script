@@ -4,7 +4,7 @@
 #standard syntax error
 
 syntax() {
-    echo "Syntax: track [-b <int>] [-h <char>] [-n] FILE FRAME" >&2
+    echo "Syntax: track [-b <int>] [-h <char>] [-n] FILE p" >&2
 }
 
 #round
@@ -59,31 +59,23 @@ shift $((OPTIND-1))
 
 #error handling
 
-if [[ $# -ne 2 ]];then
-    syntax
-    exit 1
 
-elif [[ ! -f $1 || ! -r $1 ]];then
+if [[ ! -f $1 || ! -r $1 ]];then
     syntax
     exit 4
-
-elif [[ ! $2 =~ ^[+-]?[0-9][1-9]*$ ]] && [[ $2 -gt $(cat $1|wc -l) ]];then
-    syntax
-    exit 5
-
 fi
-
-#frame
-
-frame=$(echo $2)
+#p
 
 cat $1|tr "\t" " "| cut -d " " -f 1 --complement >atletes.txt
 runners=$(cat atletes.txt|head -1|wc -w)
 
 length=$(cat $1|tail -n 1|tr "\t" " "|cut -d " " -f 2)
 
+ps=$(cat atletes.txt|wc -l)
+
+for ((p = 0 ; p<ps; p++));do
 #lichaam
-houding=$((frame%3))
+houding=$((p%3))
 
 if [[ $houding -eq 0 ]];then
     hoofd=$(printf " $h/")
@@ -103,13 +95,13 @@ fi
 
 #print
 
-echo "Runners: $runners, Length: $length, Frame: $frame"
+echo "Runners: $runners, Length: $length, Frame: $p"
 repeat "+" "---+" "$b"
 echo""
 
 for ((k = 1 ; k <= $runners ; k++)); do
 
-afstand=$(cat atletes.txt|sed -n "$((frame+1))"p|cut -d " " -f $k)
+afstand=$(cat atletes.txt|sed -n "$((p+1))"p|cut -d " " -f $k)
 pos=$(echo "($b - 1)*($afstand/$length) "|bc -l)
 blok=$(round $pos)
 
@@ -165,6 +157,9 @@ fi
 
 repeat "+" "---+" "$b"
 echo ""
+done
+sleep 0.15
+clear
 done
 
 rm atletes.txt
