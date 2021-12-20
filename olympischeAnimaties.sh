@@ -16,14 +16,10 @@ round() {
 #line function
 
 repeat (){
-    if [[ $3 -lt 1 ]];then
-        echo -n "$1"
-    else
-        echo -n "$1"
-        for ((i=0 ; i<$3 ; i++));do
-            echo -n "$2"
-        done
-    fi
+    echo -n "$1"
+    for ((i=0 ; i<$3 ; i++));do
+        echo -n "$2"
+    done
 }
 
 #options
@@ -145,7 +141,6 @@ elif [[ blok -eq $((b-1)) ]];then
     repeat "|###|" "   |" "$((b-2))"
     echo "$benen|"
 
-
 else
     
     repeat "|###|" "   |" "$((blok-1))"
@@ -165,7 +160,6 @@ else
     echo -n "$benen|"
     repeat "" "   |" "$((b-blok-2))"
     echo "###|"
-   
 
 fi
 
