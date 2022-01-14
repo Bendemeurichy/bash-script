@@ -24,7 +24,7 @@ while getopts ":n:s:m" opt;do
             ;;
         s)
             if [[ $OPTARG =~ ^[1-9][0-9]*$ ]];then
-                s=$OPTARG
+                s="$OPTARG"
             else
                 syntax
                 exit 3
@@ -41,24 +41,24 @@ shift $((OPTIND-1))
 
 #error handling
 
-if [[ $# -ne 1 ]];then
+if [[ "$#" -ne 1 ]];then
     syntax
     exit 4
 fi
 
 #search
 
-file=$(echo $1|sed "s/^.*\/\([^/]*\)$/\1/g")
+file=$(echo "$1"|sed "s/^.*\/\([^/]*\)$/\1/g")
 
-fdir=$(echo $1|sed "s/\(.*\)\/[^/]*$/\1/g")
+fdir=$(echo "$1"|sed "s/\(.*\)\/[^/]*$/\1/g")
 
-if [[ ! -d $fdir ]] || [[ ! -e $fdir ]];then
+if [[ ! -d "$fdir" ]] || [[ ! -e "$fdir" ]];then
     exit 0
 else
-    cd $fdir
+    cd "$fdir"
 fi
 
-if [[ ! -f $file ]];then
+if [[ ! -f "$file" ]];then
     exit 0
 fi
 
@@ -67,24 +67,23 @@ g=0
 touch asci.txt
 search(){
     header=$(sed -n 1p "$file")
-    key1=$(echo $header|cut -d " " -f 1)
-    key2=$(echo $header|cut -d " " -f 2)
-    key3=$(echo $header|cut -d " " -f 3)
-    
-    
+    key1=$(echo "$header"|cut -d " " -f 1)
+    key2=$(echo "$header"|cut -d " " -f 2)
+    key3=$(echo "$header"|cut -d " " -f 3)
+   
     if [[ $key1 == "print" ]];then
         for ((i=0; i<$n; i++));do
-            sed -n $((i+2))p "$file" >> asci.txt
+            sed -n "$((i+2))"p "$file" >> asci.txt
         done
     fi
-
+   
     if [[ $key2 =~ ^[0-9]*$ ]];then
     
         for ((k=0; k < $key2; k++)); do
             dir=$(pwd)
             parentdir=$(dirname "$dir") #https://koenwoortman.com/bash-script-get-current-directory/
             if [[ ! -d $parentdir ]] || [[ ! -e $parentdir ]];then
-                g=$(echo $s)
+                g=$(echo "$s")
 
             else
                 mv asci.txt "$parentdir"
@@ -117,12 +116,9 @@ while [[ $g -le $s ]];do
     g=$((++g))
 done
 
-cat asci.txt|while read line;do
     if [[ m -eq 1 ]];then
-        echo "$line"|rev
+        cat asci.txt|rev
     else
-        echo "$line"
+        cat asci.txt
     fi
-done
-
 rm asci.txt
