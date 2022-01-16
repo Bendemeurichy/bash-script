@@ -13,51 +13,28 @@ syntax() {
 #opties
 
 u=0
-
 l=0
-
 w=80
-
 while getopts ":uw:l" opt; do
-
     case $opt in
-
         u)
-
             u=1
-
             ;;
-
         l)
-
             l=1
-
             ;;
-
         w)
-
             if [[ $OPTARG =~ ^[+-]?[1-9][0-9]*$ ]];then
-
                 w=$OPTARG
-
             else
-
                 syntax
-
                 exit 3
-
             fi
-
             ;;
-
         \?)
-
             syntax
-
             exit 1
-
     esac
-
 done
 
 shift $((OPTIND-1))
@@ -65,19 +42,13 @@ shift $((OPTIND-1))
 #error handling
 
 if [[ $u -eq 1 && $l -eq 1 ]];then
-
     syntax
-
     exit 2
-
 fi
 
 if [[ ! $# -eq 1 ]] || [[ ! -f $1 || ! -r $1 ]];then
-
     syntax
-
     exit 4
-
 fi
 
 #verwerking tekst
