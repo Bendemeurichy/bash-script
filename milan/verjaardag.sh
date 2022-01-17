@@ -43,6 +43,8 @@ while getopts ":ac:d:hs" opt
 done
 shift $((OPTIND - 1))
 # check number of arguments
+
+
 if [[ ! -z $(echo "$d") ]];then
     if [[ ! -f "$d" || ! -r "$d" ]]
     then
@@ -54,7 +56,7 @@ fi
 c=$((c*86400))
 current_date=$(date '+%s')
 einddatum=$((current_date+${c}))
-
+#cat $d
 cat $d | while read line ; do
     convert=$(echo $line | sed -re "s/([0-9][0-9][0-9][0-9]) ([0-9]?[0-9]) ([0-9]?[0-9]).*/2022-\2-\3/g")
     datum=$(date -d "${convert}" "+%s")
@@ -75,7 +77,8 @@ cat $d | while read line ; do
 done >> file.txt
 
 if [[ $s -eq 1 ]];then
-    cat file.txt | sed -re "s/([a-z]) ([^0-9])/\1#\2/Ig" | sort -t ' ' -k4nr | sed -re "s/#/ /g"
+    cat file.txt | sed -re "s/([a-z]) ([^0-9])/\1#\2/Ig" | sort -t ' ' -k4n | sed -re "s/#/ /g"
+else
+    cat file.txt
 fi
-cat file.txt
 rm file.txt
