@@ -4,7 +4,7 @@ syntax() {
 }
 
 a=0
-d=${HOME}/computergebruikUgent/milan/.birthdays
+d=${HOME}/.birthdays
 s=0
 c=7
 h=0
@@ -78,3 +78,4 @@ if [[ $s -eq 1 ]];then
     cat file.txt | sed -re "s/([a-z]) ([^0-9])/\1#\2/Ig" | sort -t ' ' -k4nr | sed -re "s/#/ /g"
 fi
 cat file.txt
+rm file.txt
