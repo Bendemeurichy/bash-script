@@ -15,25 +15,16 @@ opt_c=0
 while getopts ":a:b:c:" opt;do
     case "$opt" in
         a)
-            if[[ "$OPTARG" =~ "$NatGetal" ]];then
-                a="$OPTARG"
-            else
-                syntax()
-            fi
+        #optiona
+        a=
         ;;
         b)
-            if[[ "$OPTARG" =~ "$NatGetal" ]];then
-                b="$OPTARG"
-            else
-                syntax()
-            fi
+        #optionb
+        b=
         ;;
         c)
-            if[[ "$OPTARG" =~ "$NatGetal" ]];then
-                b="$OPTARG"
-            else
-                syntax()
-            fi
+        #optionc
+        c=
         ;;
         *)
             syntax()
