@@ -17,3 +17,5 @@ dirname var #the name of the directory of the var
 basenmae var #filename of the var
 
 pwd #name of the current working directory
+
+echo "$(egrep "^(.){$ikleiner}[aouei].*$" length.txt)" > length.txt #grep same input output

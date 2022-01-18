@@ -27,7 +27,7 @@ while getopts ":a:b:c:" opt;do
         c=
         ;;
         *)
-            syntax()
+            syntax
     esac
 done
 shift $((OPTIND-1))
